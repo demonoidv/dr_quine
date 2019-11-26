@@ -20,12 +20,6 @@ C_RESET =	\033[0m
 
 PATH_OBJ =			obj/
 
-PATH_COLLEEN_SRC =	Colleen/
-PATH_GRACE_SRC =	Grace/
-PATH_SULLY_SRC =	Sully/
-
-VPATH = 			$(PATH_COLLEEN_SRC):$(PATH_GRACE_SRC):$(PATH_SULLY_SRC)
-
 CC =				gcc -Wall -Werror -Wextra
 
 COLLEEN_SRC =		Colleen.c
@@ -40,21 +34,21 @@ all: $(COLLEEN) $(GRACE) $(SULLY)
 
 $(COLLEEN): $(COLLEEN_OBJ)
 	@echo "Compiling $@ ...\033[K"
-	@$(CC) $^ -o $(PATH_COLLEEN_SRC)$@
+	@$(CC) $^ -o $@
 	@echo "$(C_OK)Done !$(C_RESET)"
 
 $(GRACE): $(GRACE_OBJ)
 	@echo "Compiling $@ ...\033[K"
-	@$(CC) $^ -o $(PATH_GRACE_SRC)$@
+	@$(CC) $^ -o $@
 	@echo "$(C_OK)Done !$(C_RESET)"
 
 $(SULLY): $(SULLY_OBJ)
 	@echo "Compiling $@ ...\033[K"
-	@$(CC) $^ -o $(PATH_SULLY_SRC)$@
+	@$(CC) $^ -o $@
 	@echo "$(C_OK)Done !$(C_RESET)"
 
 $(PATH_OBJ)%.o: %.c
-	@echo "Compiling $@\033[K\033[1A\r"
+	@echo "Compiling $@ ...\033[K"
 	@mkdir -p $(@D)
 	@$(CC) -c $< -o $@
 
@@ -63,18 +57,11 @@ clean:
 	@echo "$(C_DEL)Object files removed.$(C_RESET)"
 
 fclean: clean
-	@rm -f $(PATH_COLLEEN_SRC)$(COLLEEN)
-	@rm -f $(PATH_GRACE_SRC)$(GRACE)
-	@rm -f $(PATH_SULLY_SRC)$(SULLY)
-	@echo "$(C_DEL)$(PATH_COLLEEN_SRC)$(COLLEEN), $(PATH_GRACE_SRC)$(GRACE) and $(PATH_SULLY_SRC)$(SULLY) removed.$(C_RESET)"
-
-test: all
-	@echo "\\/\\/\\/\\/\\/\\/\\/BEGIN TEST\\/\\/\\/\\/\\/\\/\\/"
-	@echo ""
-	@./$(NAME)
-	@echo ""
-	@echo "/\\/\\/\\/\\/\\/\\/\\END TEST/\\/\\/\\/\\/\\/\\/\\"
+	@rm -f $(COLLEEN)
+	@rm -f $(GRACE)
+	@rm -f $(SULLY)
+	@echo "$(C_DEL)$(COLLEEN), $(GRACE) and $(SULLY) removed.$(C_RESET)"
 
 re: fclean all
 
-.PHONY: all clean fclean
+.PHONY: clean fclean re
