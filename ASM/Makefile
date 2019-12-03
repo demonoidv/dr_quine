@@ -19,7 +19,7 @@ C_DEL =			\033[31m
 C_RESET =		\033[0m
 
 LD =			ld
-LFLAGS =		-arch x86_64 -macosx_version_min 10.8 -e _main
+LFLAGS =		-macosx_version_min 10.8 -lSystem
 
 ASM =			nasm
 ASMFLAGS =		-f macho64
@@ -30,9 +30,9 @@ SULLY_SRC =		Sully.s
 
 PATH_OBJ =		obj/
 
-COLLEEN_OBJ =	$(patsubst $(PATH_OBJ)%.o, %.s, $(COLLEEN_SRC))
-GRACE_OBJ =		$(patsubst $(PATH_OBJ)%.o, %.s, $(GRACE_SRC))
-SULLY_OBJ =		$(patsubst $(PATH_OBJ)%.o, %.s, $(SULLY_SRC))
+COLLEEN_OBJ =	$(patsubst %.s, $(PATH_OBJ)%.o, $(COLLEEN_SRC))
+GRACE_OBJ =		$(patsubst %.s, $(PATH_OBJ)%.o, $(GRACE_SRC))
+SULLY_OBJ =		$(patsubst %.s, $(PATH_OBJ)%.o, $(SULLY_SRC))
 
 all: $(COLLEEN) $(GRACE) $(SULLY)
 
@@ -53,6 +53,7 @@ $(SULLY): $(SULLY_OBJ)
 
 $(PATH_OBJ)%.o: %.s
 	@echo "Compiling $@ ..."
+	@mkdir -p $(PATH_OBJ)
 	@$(ASM) $(ASMFLAGS) -o $@ $^
 
 clean:
