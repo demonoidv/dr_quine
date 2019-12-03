@@ -19,6 +19,7 @@ C_DEL =			\033[31m
 C_RESET =		\033[0m
 
 LD =			ld
+LFLAGS =		-arch x86_64 -macosx_version_min 10.8 -e _main
 
 ASM =			nasm
 ASMFLAGS =		-f macho64
@@ -37,17 +38,17 @@ all: $(COLLEEN) $(GRACE) $(SULLY)
 
 $(COLLEEN): $(COLLEEN_OBJ)
 	@echo "Linking $@ ..."
-	@$(LD) $^ -o $@
+	@$(LD) $(LFLAGS) $^ -o $@
 	@echo "$(C_OK)Done !$(C_RESET)"
 
 $(GRACE): $(GRACE_OBJ)
 	@echo "Linking $@ ..."
-	@$(LD) $^ -o $@
+	@$(LD) $(LFLAGS) $^ -o $@
 	@echo "$(C_OK)Done !$(C_RESET)"
 
 $(SULLY): $(SULLY_OBJ)
 	@echo "Linking $@ ..."
-	@$(LD) $^ -o $@
+	@$(LD) $(LFLAGS) $^ -o $@
 	@echo "$(C_OK)Done !$(C_RESET)"
 
 $(PATH_OBJ)%.o: %.s
